@@ -1,0 +1,5 @@
+include storage_cache/cache/*.py
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *~
+global-exclude __pycache__
