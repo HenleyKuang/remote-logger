@@ -27,12 +27,14 @@ Examples
     from remote_logger.util.definitions import SENTRY
 
     client_type = SENTRY
+    dummy_group_id = 99
     dsn = https://<key>@sentry.io/<project>
     sentry_handler = RemoteLoggerHandler(client_type,
                                          dsn=dsn)
     sentry_handler.setLevel(logging.ERROR)
     LOGGER.addHandler(sentry_handler)
     LOGGER.error("Test Message", extra={
+        "group_id": dummy_group_id,
         "primary_metadata": {
             "pkey1": "pvalue1",
             "pkey2": "pvalue2",

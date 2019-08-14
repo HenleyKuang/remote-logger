@@ -33,7 +33,7 @@ def _main():
 
     if client_type == SENTRY:
         dsn = options.dsn
-        dummy_group_id = None  # None = do not group
+        dummy_group_id = 99
         sentry_handler = RemoteLoggerHandler(client_type,
                                              dsn=dsn)
         sentry_handler.setLevel(logging.ERROR)
