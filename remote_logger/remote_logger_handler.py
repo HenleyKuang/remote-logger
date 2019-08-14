@@ -7,7 +7,9 @@ from logging import StreamHandler
 
 from remote_logger.clients.sentry_logger_client import SentryLoggerClient
 from remote_logger.util.definitions import SENTRY
-from remote_logger.util.excepts import InvalidClientTypeException
+from remote_logger.util.excepts import (
+    InvalidClientTypeException,
+)
 
 CLIENT_TYPE_LOGGER_CLIENT = {
     SENTRY: SentryLoggerClient,
@@ -30,12 +32,21 @@ class RemoteLoggerHandler(StreamHandler):
         level = record.levelname
         primary_metadata = {}
         secondary_metadata = {}
+        group_id = None
+        try:
+            group_id = record.__dict__['group_id']
+        except KeyError:
+            pass
         try:
             primary_metadata = record.__dict__['primary_metadata']
-        except Exception:
+        except KeyError:
             pass
         try:
             secondary_metadata = record.__dict__['secondary_metadata']
-        except Exception:
+        except KeyError:
             pass
-        self._client.send_log(msg, level, primary_metadata, secondary_metadata)
+        self._client.send_log(msg,
+                              level,
+                              group_id,
+                              primary_metadata,
+                              secondary_metadata)

@@ -33,11 +33,13 @@ def _main():
 
     if client_type == SENTRY:
         dsn = options.dsn
+        dummy_group_id = None  # None = do not group
         sentry_handler = RemoteLoggerHandler(client_type,
                                              dsn=dsn)
         sentry_handler.setLevel(logging.ERROR)
         LOGGER.addHandler(sentry_handler)
         LOGGER.error("Test Message", extra={
+            "group_id": dummy_group_id,
             "primary_metadata": {
                 "pkey1": "pvalue1",
                 "pkey2": "pvalue2",
