@@ -10,8 +10,6 @@
 Remote Logger
 =============
 
-Remote Logger is a module
-
 Installation
 ------------
 
