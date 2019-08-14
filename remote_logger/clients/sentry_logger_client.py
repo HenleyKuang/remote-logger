@@ -20,8 +20,9 @@ class SentryLoggerClient(LoggerClient):
 
     def __init__(self, **kwargs):
         dsn = kwargs['dsn']
-        self._client = sentry_sdk.init(dsn=dsn,
-                                       integrations=[SENTRY_DISABLE_LOGGING_INTEGRATION])
+        sentry_sdk.init(dsn=dsn,
+                        integrations=[SENTRY_DISABLE_LOGGING_INTEGRATION])
+        self._client = sentry_sdk
 
     def send_log(self, message, level, primary_metadata, secondary_metadata):
         with push_scope() as scope:

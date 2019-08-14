@@ -37,7 +37,7 @@ def _main():
                                              dsn=dsn)
         sentry_handler.setLevel(logging.ERROR)
         LOGGER.addHandler(sentry_handler)
-        LOGGER.error("Test", extra={
+        LOGGER.error("Test Message", extra={
             "primary_metadata": {
                 "pkey1": "pvalue1",
                 "pkey2": "pvalue2",

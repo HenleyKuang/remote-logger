@@ -1,5 +1,6 @@
-include storage_cache/cache/*.py
+include remote_logger/cache/*.py
 global-exclude *.pyc
 global-exclude *.pyo
 global-exclude *~
 global-exclude __pycache__
+global-exclude img/*
