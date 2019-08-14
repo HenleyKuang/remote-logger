@@ -25,10 +25,13 @@ Examples
 
 .. code-block:: python
 
-    client_type = "sentry"
+    from remote_logger.remote_logger_handler import RemoteLoggerHandler
+    from remote_logger.util.definitions import SENTRY
+
+    client_type = SENTRY
     dsn = https://<key>@sentry.io/<project>
     sentry_handler = RemoteLoggerHandler(client_type,
-                                        dsn=dsn)
+                                         dsn=dsn)
     sentry_handler.setLevel(logging.ERROR)
     LOGGER.addHandler(sentry_handler)
     LOGGER.error("Test Message", extra={
