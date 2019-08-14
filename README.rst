@@ -40,3 +40,5 @@ Code
 Result
     .. figure:: https://raw.githubusercontent.com/HenleyKuang/remote-logger/master/img/SentryLogTestMessage.PNG
         :figclass: img-responsive
+        :width: 50%
+        :height: 50%
