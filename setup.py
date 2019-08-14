@@ -6,7 +6,7 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.rst')) as f:
     long_description = f.read()
 
 
@@ -19,8 +19,8 @@ setup(
     version='0.1.0',
 
     description='Remote Logger',
-    long_description=long_description,
     long_description_content_type='text/x-rst',
+    long_description=long_description,
 
     # The project's main homepage.
     url='https://github.com/HenleyKuang/remote-logger',
@@ -30,8 +30,7 @@ setup(
     author_email='hekuang@ucdavis.edu',
 
     # Choose your license
-    license='GPL-3.0',
-
+    license='GPL',
     # See https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
 
