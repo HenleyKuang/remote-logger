@@ -1,5 +1,16 @@
+.. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
+   :target: https://www.gnu.org/licenses/gpl-3.0
+
+.. image:: https://badge.fury.io/py/remote-logger.svg
+   :target: https://pypi.org/project/remote-logger/
+
+.. image:: https://img.shields.io/travis/HenleyKuang/remote-logger.svg
+   :target: https://travis-ci.org/HenleyKuang/remote-logger
+
 Remote Logger
 =============
+
+Remote Logger is a module
 
 Installation
 ------------
