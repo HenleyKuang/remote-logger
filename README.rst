@@ -1,4 +1,3 @@
-=============
 Remote Logger
 =============
 
@@ -39,4 +38,4 @@ Code
 
 Result
     .. image:: https://raw.githubusercontent.com/HenleyKuang/remote-logger/master/img/SentryLogTestMessage.PNG
-        :scale: 50 %
+        :scale: 30%
