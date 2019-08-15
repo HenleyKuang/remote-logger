@@ -6,13 +6,18 @@
 from logging import StreamHandler
 
 from remote_logger.clients.sentry_logger_client import SentryLoggerClient
-from remote_logger.util.definitions import SENTRY
+from remote_logger.clients.stackdriver_logger_client import StackdriverLoggerClient
+from remote_logger.util.definitions import (
+    SENTRY,
+    STACKDRIVER,
+)
 from remote_logger.util.excepts import (
     InvalidClientTypeException,
 )
 
 CLIENT_TYPE_LOGGER_CLIENT = {
     SENTRY: SentryLoggerClient,
+    STACKDRIVER: StackdriverLoggerClient,
 }
 
 

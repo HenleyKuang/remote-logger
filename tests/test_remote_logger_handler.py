@@ -25,14 +25,14 @@ def test_initialize_sentry_logger_handler():
         pytest.fail("Exception raised: %s" % e)
 
 
-# def test_initialize_stackdriver_logger_handler():
-#     """
-#     Test initialization of sentry logger handler
-#     """
-#     try:
-#         sentry_handler = RemoteLoggerHandler(STACKDRIVER)
-#     except Exception as e:
-#         pytest.fail("Exception raised: %s" % e)
+def test_initialize_stackdriver_logger_handler():
+    """
+    Test initialization of sentry logger handler
+    """
+    try:
+        sentry_handler = RemoteLoggerHandler(STACKDRIVER)
+    except Exception as e:
+        pytest.fail("Exception raised: %s" % e)
 
 
 def test_initialize_invalid_client_type_logger_handler():
