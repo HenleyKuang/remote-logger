@@ -33,14 +33,14 @@ def _main():
     client_type = options.client_type
     dummy_group_id = 99
     primary_metadata = {
-        "xpfdafkey1": "pvaldafasue1",
-        "pkdafasey2": "pvfdasfasalue2",
-        "pkdasfasey3": "pvaludafase3",
+        "pkey1": "pvalue1",
+        "pkey2": "pvalue2",
+        "pkey3": "pvalue3",
     }
     secondary_metadata = {
-        "skdafasey1": "svadasfaslue1",
-        "skey2": "svadasfaslue2",
-        "skdasfasey3": "svdsfasalue3",
+        "skey1": "svalue1",
+        "skey2": "svalue2",
+        "skey3": "svalue3",
     }
 
     if client_type == SENTRY:
@@ -53,7 +53,7 @@ def _main():
         stackdriver_handler = RemoteLoggerHandler(client_type)
         stackdriver_handler.setLevel(logging.ERROR)
         LOGGER.addHandler(stackdriver_handler)
-    LOGGER.error("T32423523est 54353", extra={
+    LOGGER.error("Test Message", extra={
         "group_id": dummy_group_id,
         "primary_metadata": primary_metadata,
         "secondary_metadata": secondary_metadata,
