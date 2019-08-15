@@ -17,13 +17,18 @@ def _parse_args():
     sentry_parser = argparse.ArgumentParser(add_help=False)
     sentry_parser.add_argument('--dsn',
                                action='store',
-                               default='parent',
+                               required=True,
                                help='dsn endpoint')
+
+    stackdriver_parser = argparse.ArgumentParser(add_help=False)
+    stackdriver_parser.add_argument('--service-key-path',
+                                    action='store',
+                                    help='service key json path')
 
     command_subparser = parser.add_subparsers(dest='client_type')
     command_subparser.required = True
     command_subparser.add_parser(SENTRY, parents=[sentry_parser])
-    command_subparser.add_parser(STACKDRIVER)
+    command_subparser.add_parser(STACKDRIVER, parents=[stackdriver_parser])
 
     return parser.parse_args()
 
@@ -50,7 +55,12 @@ def _main():
         sentry_handler.setLevel(logging.ERROR)
         LOGGER.addHandler(sentry_handler)
     elif client_type == STACKDRIVER:
-        stackdriver_handler = RemoteLoggerHandler(client_type)
+        service_key_path = options.service_key_path
+        if service_key_path is not None:
+            stackdriver_handler = RemoteLoggerHandler(client_type,
+                                                      service_key_path=service_key_path)
+        else:
+            stackdriver_handler = RemoteLoggerHandler(client_type)
         stackdriver_handler.setLevel(logging.ERROR)
         LOGGER.addHandler(stackdriver_handler)
     LOGGER.error("Test Message", extra={

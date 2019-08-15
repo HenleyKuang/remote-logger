@@ -8,7 +8,12 @@ from google.cloud import logging
 class StackdriverLoggerClient(object):
 
     def __init__(self, **kwargs):
-        google_logging_client = logging.Client()
+        if 'service_key_path' in kwargs:
+            credentials_path = kwargs['service_key_path']
+            google_logging_client = logging.Client.from_service_account_json(
+                credentials_path)
+        else:
+            google_logging_client = logging.Client(**kwargs)
         stackdriver_logger = google_logging_client.logger(__name__)
         self._client = stackdriver_logger
 
