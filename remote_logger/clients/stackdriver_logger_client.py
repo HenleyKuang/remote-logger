@@ -19,8 +19,6 @@ class StackdriverLoggerClient(object):
 
     def send_log(self, message, level, group_id, primary_metadata, secondary_metadata):
         # Merge primary and secondary metadata
-        # To filter by specific metadata, create labels
-        #   (https://cloud.google.com/logging/docs/logs-based-metrics/labels)
         metadata_dict = {**primary_metadata, **secondary_metadata}
         metadata_dict['message'] = message
         if group_id is not None:
