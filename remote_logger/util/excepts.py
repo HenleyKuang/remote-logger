@@ -4,5 +4,9 @@
 """
 
 
+class FailTranslatingPythonLogLevelException(Exception):
+    pass
+
+
 class InvalidClientTypeException(Exception):
     pass

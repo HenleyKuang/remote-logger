@@ -9,11 +9,30 @@ from sentry_sdk import push_scope
 from sentry_sdk.integrations.logging import LoggingIntegration
 
 from remote_logger.clients.logger_client import LoggerClient
+from remote_logger.util.excepts import FailTranslatingPythonLogLevelException
 
 SENTRY_DISABLE_LOGGING_INTEGRATION = LoggingIntegration(
     level=logging.INFO,  # Capture logging level for breadcrumbs
     event_level=None  # Do not send any logs as events, this module will handle the log handler
 )
+
+PYTHON_TO_SENTRY_LOG_LEVELS = {
+    'CRITICAL': 'fatal',
+    'FATAL': 'fatal',
+    'ERROR': 'error',
+    'WARN': 'warning',
+    'WARNING': 'warning',
+    'INFO': 'info',
+    'DEBUG': 'debug',
+}
+
+
+def get_sentry_log_level(python_log_level):
+    try:
+        return PYTHON_TO_SENTRY_LOG_LEVELS[python_log_level]
+    except KeyError as e:
+        raise FailTranslatingPythonLogLevelException(
+            "Could not translate python log level %s to a sentry log level" % python_log_level)
 
 
 def before_send(event, hint):
@@ -37,8 +56,10 @@ class SentryLoggerClient(LoggerClient):
         self._client = sentry_sdk
 
     def send_log(self, message, level, group_id, primary_metadata, secondary_metadata):
+        print(level)
+        sentry_log_level = get_sentry_log_level(level)
         with push_scope() as scope:
-            scope.level = level
+            scope.level = sentry_log_level
             for tag_name, tag_value in primary_metadata.items():
                 scope.set_tag(tag_name, tag_value)
             for tag_name, tag_value in secondary_metadata.items():
