@@ -56,7 +56,6 @@ class SentryLoggerClient(LoggerClient):
         self._client = sentry_sdk
 
     def send_log(self, message, level, group_id, primary_metadata, secondary_metadata):
-        print(level)
         sentry_log_level = get_sentry_log_level(level)
         with push_scope() as scope:
             scope.level = sentry_log_level
