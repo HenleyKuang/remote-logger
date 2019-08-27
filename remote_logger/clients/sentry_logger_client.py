@@ -30,7 +30,7 @@ PYTHON_TO_SENTRY_LOG_LEVELS = {
 def get_sentry_log_level(python_log_level):
     try:
         return PYTHON_TO_SENTRY_LOG_LEVELS[python_log_level]
-    except KeyError as e:
+    except KeyError:
         raise FailTranslatingPythonLogLevelException(
             "Could not translate python log level %s to a sentry log level" % python_log_level)
 
