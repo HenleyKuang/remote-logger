@@ -4,11 +4,9 @@
 """
 import pytest
 
+from remote_logger.clients.sentry_logger_client import SentryLoggerClient
+from remote_logger.clients.stackdriver_logger_client import StackdriverLoggerClient
 from remote_logger.remote_logger_handler import RemoteLoggerHandler
-from remote_logger.util.definitions import (
-    SENTRY,
-    STACKDRIVER,
-)
 from remote_logger.util.excepts import (
     InvalidClientTypeException,
 )
@@ -19,8 +17,8 @@ def test_initialize_sentry_logger_handler():
     Test initialization of sentry logger handler
     """
     try:
-        RemoteLoggerHandler(SENTRY,
-                            dsn="https://test@sentry.io/1")
+        sentry_client = SentryLoggerClient(dsn="https://test@sentry.io/1")
+        RemoteLoggerHandler(client=sentry_client)
     except Exception as e:
         pytest.fail("Exception raised: %s" % e)
 
@@ -30,7 +28,8 @@ def test_initialize_stackdriver_logger_handler():
     Test initialization of sentry logger handler
     """
     try:
-        RemoteLoggerHandler(STACKDRIVER)
+        stackdriver_client = StackdriverLoggerClient()
+        RemoteLoggerHandler(client=stackdriver_client)
     except Exception as e:
         pytest.fail("Exception raised: %s" % e)
 

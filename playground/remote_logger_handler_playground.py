@@ -1,11 +1,9 @@
 import argparse
 import logging
 
+from remote_logger.clients.sentry_logger_client import SentryLoggerClient
+from remote_logger.clients.stackdriver_logger_client import StackdriverLoggerClient
 from remote_logger.remote_logger_handler import RemoteLoggerHandler
-from remote_logger.util.definitions import (
-    SENTRY,
-    STACKDRIVER,
-)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -36,10 +34,10 @@ def _parse_args():
 
     command_subparser = parser.add_subparsers(dest='client_type')
     command_subparser.required = True
-    command_subparser.add_parser(SENTRY, parents=[parent_parser,
-                                                  sentry_parser])
-    command_subparser.add_parser(STACKDRIVER, parents=[parent_parser,
-                                                       stackdriver_parser])
+    command_subparser.add_parser("sentry", parents=[parent_parser,
+                                                    sentry_parser])
+    command_subparser.add_parser("stackdriver", parents=[parent_parser,
+                                                         stackdriver_parser])
 
     return parser.parse_args()
 
@@ -62,22 +60,20 @@ def _main():
         "skey3": "svalue3",
     }
 
-    if client_type == SENTRY:
+    client = None
+    if client_type == "sentry":
         dsn = options.dsn
-        sentry_handler = RemoteLoggerHandler(client_type,
-                                             dsn=dsn)
-        sentry_handler.setLevel(levelint)
-        LOGGER.addHandler(sentry_handler)
-    elif client_type == STACKDRIVER:
+        client = SentryLoggerClient(dsn=dsn)
+    elif client_type == "stackdriver":
         service_key_path = options.service_key_path
         if service_key_path is not None:
-            stackdriver_handler = RemoteLoggerHandler(client_type,
-                                                      service_key_path=service_key_path)
+            client = StackdriverLoggerClient(service_key_path=service_key_path)
         else:
-            stackdriver_handler = RemoteLoggerHandler(client_type)
-        stackdriver_handler.setLevel(levelint)
-        LOGGER.addHandler(stackdriver_handler)
-    getattr(LOGGER, level)(msg="Test Message",
+            client = StackdriverLoggerClient()
+    remote_logger_handler = RemoteLoggerHandler(client)
+    remote_logger_handler.setLevel(levelint)
+    LOGGER.addHandler(remote_logger_handler)
+    getattr(LOGGER, level)(msg="Test Message\n",
                            extra={
                                "group_id": dummy_group_id,
                                "primary_metadata": primary_metadata,

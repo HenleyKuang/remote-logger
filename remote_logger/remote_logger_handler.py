@@ -7,30 +7,22 @@ from logging import StreamHandler
 
 from remote_logger.clients.sentry_logger_client import SentryLoggerClient
 from remote_logger.clients.stackdriver_logger_client import StackdriverLoggerClient
-from remote_logger.util.definitions import (
-    SENTRY,
-    STACKDRIVER,
-)
 from remote_logger.util.excepts import (
     InvalidClientTypeException,
 )
 
-CLIENT_TYPE_LOGGER_CLIENT = {
-    SENTRY: SentryLoggerClient,
-    STACKDRIVER: StackdriverLoggerClient,
-}
+CLIENT_TYPES = [SentryLoggerClient, StackdriverLoggerClient]
 
 
 class RemoteLoggerHandler(StreamHandler):
 
-    def __init__(self, client_type, **kwargs):
+    def __init__(self, client):
         StreamHandler.__init__(self)
-        try:
-            LoggerClient = CLIENT_TYPE_LOGGER_CLIENT[client_type]
-        except KeyError:
+        if type(client) not in CLIENT_TYPES:
             raise InvalidClientTypeException(
-                "No LoggerClient for client_type: %s" % client_type)
-        self._client = LoggerClient(**kwargs)
+                "Invalid LoggerClient type (%s). Must be one of %s" % (
+                    type(client), CLIENT_TYPES))
+        self._client = client
 
     def emit(self, record):
         msg = self.format(record)
