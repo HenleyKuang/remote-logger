@@ -27,15 +27,14 @@ Initializing RemoteLogger with Sentry
 
     import logging
 
+    from remote_logger.clients.sentry_logger_client import SentryLoggerClient
     from remote_logger.remote_logger_handler import RemoteLoggerHandler
-    from remote_logger.util.definitions import SENTRY
 
     LOGGER = logging.getLogger(__name__)
 
-    client_type = SENTRY
     dsn = "https://<key>@sentry.io/<project>"
-    sentry_handler = RemoteLoggerHandler(client_type,
-                                         dsn=dsn)
+    sentry_client = SentryLoggerClient(dsn=dsn)
+    sentry_handler = RemoteLoggerHandler(client=sentry_client)
     sentry_handler.setLevel(logging.ERROR)
     LOGGER.addHandler(sentry_handler)
 
@@ -46,20 +45,19 @@ Initializing RemoteLogger with Stackdriver
 
     import logging
 
+    from remote_logger.clients.stackdriver_logger_client import StackdriverLoggerClient
     from remote_logger.remote_logger_handler import RemoteLoggerHandler
-    from remote_logger.util.definitions import STACKDRIVER
 
     LOGGER = logging.getLogger(__name__)
 
-    client_type = STACKDRIVER
-
     # With service key
     service_key_path = "/path/to/key.json"
-    stackdriver_handler = RemoteLoggerHandler(client_type,
-                                              service_key_path=service_key_path)
-    # Without service key
-    stackdriver_handler = RemoteLoggerHandler(client_type)
+    stackdriver_client = StackdriverLoggerClient(service_key_path=service_key_path)
 
+    # Without service key
+    stackdriver_client = StackdriverLoggerClient()
+
+    stackdriver_handler = RemoteLoggerHandler(stackdriver_client)
     stackdriver_handler.setLevel(logging.ERROR)
     LOGGER.addHandler(stackdriver_handler)
 
