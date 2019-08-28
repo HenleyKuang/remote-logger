@@ -16,7 +16,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.3.0',
+    version='0.3.1',
 
     description='Remote Logger',
     long_description_content_type='text/x-rst',
@@ -67,5 +67,8 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/technical.html#install-requires-vs-requirements-files
     python_requires=">=3.6",
-    install_requires=['google-cloud-logging', 'sentry-sdk'],
+    install_requires=[
+        'google-cloud-logging==1.12.1',
+        'sentry-sdk==0.10.2'
+    ],
 )
