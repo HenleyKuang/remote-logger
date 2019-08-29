@@ -2,6 +2,7 @@
 :author: Henley Kuang
 :since: 08/14/2019
 """
+import logging
 import pytest
 
 from remote_logger.clients.sentry_logger_client import SentryLoggerClient
@@ -29,6 +30,18 @@ def test_initialize_stackdriver_logger_handler():
     """
     try:
         stackdriver_client = StackdriverLoggerClient()
+        RemoteLoggerHandler(client=stackdriver_client)
+    except Exception as e:
+        pytest.fail("Exception raised: %s" % e)
+
+
+def test_initialize_stackdriver_with_error_repoting_level_logger_handler():
+    """
+    Test initialization of sentry logger handler
+    """
+    try:
+        stackdriver_client = StackdriverLoggerClient(
+            error_reporting_level=logging.ERROR)
         RemoteLoggerHandler(client=stackdriver_client)
     except Exception as e:
         pytest.fail("Exception raised: %s" % e)

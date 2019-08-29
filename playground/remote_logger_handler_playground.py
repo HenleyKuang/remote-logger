@@ -31,6 +31,13 @@ def _parse_args():
     stackdriver_parser.add_argument('--service-key-path',
                                     action='store',
                                     help='service key json path')
+    stackdriver_parser.add_argument('--error-reporting-level',
+                                    action='store',
+                                    choices=['debug', 'info',
+                                             'warning', 'error',
+                                             'critical'],
+                                    default='error',
+                                    help='log level to send events to error reporting')
 
     command_subparser = parser.add_subparsers(dest='client_type')
     command_subparser.required = True
@@ -66,10 +73,15 @@ def _main():
         client = SentryLoggerClient(dsn=dsn)
     elif client_type == "stackdriver":
         service_key_path = options.service_key_path
+        error_reporting_level = options.error_reporting_level
+        kwargs = {}
         if service_key_path is not None:
-            client = StackdriverLoggerClient(service_key_path=service_key_path)
-        else:
-            client = StackdriverLoggerClient()
+            kwargs['service_key_path'] = service_key_path
+        if error_reporting_level is not None:
+            error_reporting_levelint = logging.getLevelName(
+                error_reporting_level.upper())
+            kwargs['error_reporting_level'] = error_reporting_levelint
+        client = StackdriverLoggerClient(**kwargs)
     remote_logger_handler = RemoteLoggerHandler(client)
     remote_logger_handler.setLevel(levelint)
     LOGGER.addHandler(remote_logger_handler)
