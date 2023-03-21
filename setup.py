@@ -69,6 +69,6 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         'google-cloud-logging==1.12.1',
-        'sentry-sdk==0.10.2'
+        'sentry-sdk==1.14.0'
     ],
 )
